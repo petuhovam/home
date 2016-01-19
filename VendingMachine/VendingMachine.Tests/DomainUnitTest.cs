@@ -132,6 +132,8 @@ namespace VendingMachine.Tests
             Assert.AreEqual(rest[0], Money.Two);
 
             user.Account.Add(rest);
+
+            Assert.IsTrue(user.Account.Sum > 0);
             Assert.AreEqual(user.Account.Sum, user.Account.TotalSum);
         }
     }
