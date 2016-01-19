@@ -1,0 +1,59 @@
+﻿@using VendingMachine.UI.AspNetMvc.Models
+
+<fieldset id="UserView" class="area">
+   <legend>Пользователь</legend>
+   
+   <fieldset>
+       <legend>Купленные товары</legend>
+       <table class="container">
+         <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Количество</th>
+            </tr>
+         </thead>
+         <tbody>
+         @foreach (ProductCount pc in ViewBag.UserProducts)
+         {
+           <tr>      
+              <td>@pc.Product</td>      
+              <td>@pc.Count порций</td>   
+           </tr>
+         }
+         <tbody>
+         <tfoot>
+            <tr>
+                <td colspan="2">Общая сумма @ViewBag.UserProducts.TotalPrice</td>
+            </tr>
+         </tfoot>
+       </table>
+   </fieldset>
+
+   <fieldset>
+       <legend>Кошелек</legend>
+       <table class="container">
+         <thead>
+            <tr>
+                <th></th>
+                <th>Номинал</th>
+                <th>Количество</th>
+            </tr>
+         </thead>
+         <tbody>
+         @foreach (MoneyCount mc in ViewBag.UserAccount)
+         {
+           <tr>    
+              <td>@Html.ActionLink("внести в кассу", "OnPutMoney", "Home", new { item = (UInt16)mc.Money }, new { title = "Внести " + mc.Money + " в кассу" })</td>  
+              <td>@mc.Money</td>      
+              <td>@mc.Count штук</td>   
+           </tr>
+         }
+         <tbody>
+         <tfoot>
+            <tr>
+                <td colspan="3">Сумма @ViewBag.UserAccount.TotalSum</td>                
+            </tr>
+         </tfoot>
+       </table>
+   </fieldset>
+</fieldset>

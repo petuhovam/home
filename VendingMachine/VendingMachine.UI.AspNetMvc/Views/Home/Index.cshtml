@@ -1,0 +1,28 @@
+﻿@using VendingMachine.UI.AspNetMvc.Models
+
+@{
+    ViewBag.Title = "Главная страница";
+}
+
+@if (ViewBag.MessageText != null) {
+    <h3 class="message-text">@ViewBag.MessageText</h3>
+}
+
+@if (ViewBag.ErrorText != null) {
+    <h3 class="error-text">@ViewBag.ErrorText</h3>
+}
+
+<table class="container">
+  <tbody>
+    <tr>
+    <td width="50%">
+        @Html.Partial("UserView")
+    </td>
+    <td width="50%">
+        @Html.Partial("VMView")
+    </td>
+    </tr>
+  </tbody>
+</table>
+
+

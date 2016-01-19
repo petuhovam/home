@@ -1,0 +1,110 @@
+﻿<Window x:Class="VendingMachine.UI.WPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Главное окно" WindowStartupLocation="CenterScreen"
+        Width="640" Height="400" Name="main">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Header="Пользователь">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Header="Купленные товары">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <ListBox ItemsSource="{Binding UserProducts, Mode=OneWay}"/>
+
+                        <TextBlock Grid.Row="1" Text="{Binding UserProducts.TotalPrice, StringFormat='Сумма {0}', Mode=OneWay}"/>
+                    </Grid>
+                </GroupBox>
+                
+                <GroupBox Header="Кошелек" Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ItemsControl ItemsSource="{Binding UserAccount, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding}" Background="White"
+                                            Command="{Binding DataContext.OnPutMoney, ElementName=main, Mode=OneTime}"
+                                            CommandParameter="{Binding}"
+                                            ToolTip="Внести в кассу"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock Grid.Row="1" Text="{Binding User.Account.TotalSum, StringFormat='Сумма {0}', Mode=OneWay}"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="3"/>
+
+        <GroupBox Header="Торговый автомат" Grid.Column="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Header="Ассортимент товаров">
+                    <ItemsControl ItemsSource="{Binding VMProducts, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding}" Background="White"
+                                        Command="{Binding DataContext.OnBuyProduct, ElementName=main, Mode=OneTime}"
+                                        CommandParameter="{Binding}"
+                                        ToolTip="Купить товар"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </GroupBox>
+
+                <GroupBox Header="Внесенная сумма" Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="{Binding VM.UserAccount.TotalSum, Mode=OneWay}"/>
+                        <Button Content="Сдача" Width="100" Grid.Column="1"
+                                Command="{Binding OnGetRest, Mode=OneTime}"
+                                ToolTip="Получить сдачу"/>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Header="Кошелек для сдачи" Grid.Row="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ItemsControl ItemsSource="{Binding VMBankAccount, Mode=OneWay}"/>
+                        <TextBlock Text="{Binding VM.BankAccount.TotalSum, StringFormat='Сумма {0}', Mode=OneWay}" 
+                                   Grid.Row="1" Margin="0,10,0,0"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

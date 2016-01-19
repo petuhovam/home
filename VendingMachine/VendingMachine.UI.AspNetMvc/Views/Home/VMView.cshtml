@@ -1,0 +1,64 @@
+﻿@using VendingMachine.UI.AspNetMvc.Models
+
+<fieldset id="VM" class="area">
+   <legend>Торговый автомат</legend>
+
+   <fieldset>
+       <legend>Ассортимент товаров</legend>
+       <table class="container">
+         <thead>
+            <tr>
+                <th></th>
+                <th>Товар</th>
+                <th>Количество</th>
+            </tr>
+         </thead>
+         <tbody>
+         @foreach (ProductCount pc in ViewBag.VMProducts)
+         {
+           <tr>
+              <td>@Html.ActionLink("купить", "BuyProduct", "Home", new { ProductName = pc.Product.Name }, new { title = "Купить " + pc.Product })</td>
+              <td>@pc.Product</td>      
+              <td>@pc.Count порций</td>   
+           </tr>
+         }
+        </tbody>
+      </table>
+    </fieldset>
+
+    <fieldset>
+       <legend>Внесенная сумма</legend>
+       <table class="container">
+        <tr>
+            <td width="100%"><span>@ViewBag.VMUserAccount.TotalSum</span></td>
+            <td>@Html.ActionLink("сдача", "GetRest", "Home", null, new { title = "Получить сдачу"})</td>
+         </tr>
+       </table>
+    </fieldset>
+
+    <fieldset>
+       <legend>Кошелек для сдачи</legend>
+       <table class="container">
+         <thead>
+            <tr>
+                <th>Номинал</th>
+                <th>Количество</th>
+            </tr>
+         </thead>
+         <tbody>
+         @foreach (MoneyCount mc in ViewBag.VMBankAccount)
+         {
+           <tr>      
+              <td>@mc.Money</td>      
+              <td>@mc.Count штук</td>   
+           </tr>
+         }
+         <tbody>
+         <tfoot>
+            <tr>
+                <td colspan="2">Сумма @ViewBag.VMBankAccount.TotalSum</td>
+            </tr>
+         </tfoot>
+       </table>
+    </fieldset>
+</fieldset>
